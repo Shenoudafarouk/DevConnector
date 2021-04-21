@@ -3,14 +3,16 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
-const keys = require("../config/keys");
-
+const path = require('path');
+require('dotenv').config({
+  path: path.join(__dirname, '.env')
+});
 class UserService {
   constructor() {
     //this.PlayTokenManager = new PlayTokenManager();
   }
 
-  async register(email, name, password, avatar) {
+  async register({ email, name, password, avatar }) {
     const userExist = await User.findOne({ email: email });
     if (userExist) {
       throw { statusCode: 400, message: "Email is already exist" };
@@ -28,7 +30,6 @@ class UserService {
       avatar,
     }).save();
 
-    console.log(password);
     return user;
   }
 
@@ -49,11 +50,11 @@ class UserService {
         userId: user._id,
         avatar: user.avatar,
       };
-      const token = "bearer " +await jwt.sign(payload, keys.JWT_Key, { expiresIn: "1h" });
+      const token = `bearer  ${await jwt.sign(payload, process.env.JWT_Key, { expiresIn: "7d" })}`;
 
       const response = {
         access_token: token,
-        expires_in: "1h",
+        expires_in: "7d",
         user: {
           userId: user._id
         }

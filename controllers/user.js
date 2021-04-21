@@ -9,15 +9,11 @@ class UserAPIController {
 
   async register(req, res, next) {
     try {
-      const { email, name, password, avatar } = req.body;
-      const response = await this.UserService.register(
-        email,
-        name,
-        password,
-        avatar
-      );
+  
+      const response = await this.UserService.register(req.body);
       console.log(response);
       return res.send({ status: "OK", result: response });
+
     } catch (error) {
       console.error(
         "UserAPIController.js --> UserAPIController().register()",
