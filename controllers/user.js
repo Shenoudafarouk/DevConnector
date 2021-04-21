@@ -31,6 +31,7 @@ class UserAPIController {
     }
   }
 
+  //login
   async login(req, res, next) {
     try {
       const response = await this.UserService.login(req.body);
@@ -38,7 +39,7 @@ class UserAPIController {
       return res.send(response);
     } catch (error) {
       console.error("UserAPIController.js --> UserAPIController().login()", error);
-      
+
       return res.status(error.statusCode || 500).json({
         status: "SERVER_ERROR",
         message: error.message,
