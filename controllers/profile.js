@@ -25,7 +25,7 @@ class ProfileAPIController {
 
   async createOrEditProfile(req, res, next) {
     try {
-      const response = await this.userService().createOrEditProfile(req);
+      const response = await this.userService.createOrEditProfile(req);
       return res.send({
         status: "OK",
         result: response,

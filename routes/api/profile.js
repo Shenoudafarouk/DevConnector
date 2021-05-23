@@ -12,7 +12,7 @@ router.get("/", passport.authenticate("jwt", { session: false }), new ProfileCon
 // @route GET /api/profile/
 // @desc create or edit profile route
 // @access Public
-router.get("/", passport.authenticate("jwt", { session: false }), new ProfileController().getProfile);
+router.post("/", passport.authenticate("jwt", { session: false }), new ProfileController().createOrEditProfile);
 
 
 module.exports = router;
