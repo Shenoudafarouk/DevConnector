@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require('morgan');
+const passport = require('passport')
 const app = express();
 const path = require('path');
 require('dotenv').config({
@@ -14,6 +15,7 @@ const postsRoutes = require('./routes/api/posts')
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
+//"mongodb+srv://shenoudafarouk:12345@cluster0.njwge.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 mongoose
   .connect(process.env.mongoURI, { useNewUrlParser: true })
   .then(() => {
@@ -24,8 +26,11 @@ mongoose
   });
 
 app.use(morgan("dev"))
+app.use(express.json({
+  limit: '50mb'
+}));
 app.use(express.urlencoded({
-  extended: true
+  extended: false
 }));
 
 app.use((req, res, next) => {
@@ -41,6 +46,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(passport.initialize());
+
+require('./config/passport')(passport);
 
 app.use('/api/user', userRoutes);
 app.use('/api/profile', profileRoutes);

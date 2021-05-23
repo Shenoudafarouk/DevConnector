@@ -3,16 +3,16 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
-const path = require('path');
-require('dotenv').config({
-  path: path.join(__dirname, '.env')
+const path = require("path");
+require("dotenv").config({
+  path: path.join(__dirname, ".env"),
 });
 class UserService {
   constructor() {
     //this.PlayTokenManager = new PlayTokenManager();
   }
 
-  async register({ email, name, password, avatar }) {
+  async register({ name, password, email }) {
     const userExist = await User.findOne({ email: email });
     if (userExist) {
       throw { statusCode: 400, message: "Email is already exist" };
@@ -21,7 +21,8 @@ class UserService {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    avatar = gravatar.url(email, { s: "200", r: "pg", d: "robohash" });
+    const avatar = gravatar.url(email, { s: "200", r: "pg", d: "robohash" });
+    console.log(avatar);
 
     const user = await new User({
       email,
@@ -50,17 +51,27 @@ class UserService {
         userId: user._id,
         avatar: user.avatar,
       };
-      const token = `bearer  ${await jwt.sign(payload, process.env.JWT_Key, { expiresIn: "7d" })}`;
+      const token = `bearer ${jwt.sign(payload, process.env.JWT_Key, {
+        expiresIn: "7d",
+      })}`;
 
       const response = {
         access_token: token,
         expires_in: "7d",
         user: {
-          userId: user._id
-        }
-      }
+          userId: user._id,
+        },
+      };
 
       return response;
+    }
+  }
+
+  async current({ user }) {
+    return {
+      id: user._id,
+      name: user.name,
+      email: user.email
     }
   }
 }
