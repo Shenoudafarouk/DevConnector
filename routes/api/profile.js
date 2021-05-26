@@ -14,5 +14,16 @@ router.get("/", passport.authenticate("jwt", { session: false }), new ProfileCon
 // @access Public
 router.post("/", passport.authenticate("jwt", { session: false }), profileValidation ,new ProfileController().createOrEditProfile);
 
+// @route GET /api/profile/handle/:handle
+// @desc get profile by handle
+// @access Public
+
+router.get('/handle/:handle', new ProfileController().getProfileByHandle)
+
+// @route GET /api/profile/handle/:userId
+// @desc get profile by UserID
+// @access Public
+
+router.get('/userId/:userId', new ProfileController().getProfileByUserId)
 
 module.exports = router;
