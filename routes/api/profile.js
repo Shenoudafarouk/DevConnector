@@ -5,7 +5,7 @@ const ProfileController = require("../../controllers/profile");
 const {
   profileValidation,
   addExperienceValidation,
-  addEducationValidation
+  addEducationValidation,
 } = require("../../validation/profileValidation");
 
 // @route GET /api/profile/
@@ -60,6 +60,18 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   addEducationValidation,
   new ProfileController().addEducation
+);
+
+router.delete(
+  "/experience/:exp",
+  passport.authenticate("jwt", { session: false }),
+  new ProfileController().deleteExperience
+);
+
+router.delete(
+    "/education/:edu",
+    passport.authenticate("jwt", { session: false }),
+    new ProfileController().deleteEducation
 );
 
 module.exports = router;

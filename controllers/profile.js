@@ -7,6 +7,37 @@ class ProfileAPIController {
     autoBind(this);
   }
 
+  
+  async deleteEducation(req, res, next) {
+    try {
+      const response = await this.profileService.deleteEducation(req);
+      res.send({
+        status: "OK",
+        result: response,
+      });
+    } catch (error) {
+      console.error("ProfileAPIController -> deleteEducation()", error);
+      return res.status(error.statusCode || 500).json({
+        status: "SERVER_ERROR",
+        message: error.message,
+      });
+    }
+  }
+  async deleteExperience(req, res, next) {
+    try {
+      const response = await this.profileService.deleteExperience(req);
+      res.send({
+        status: "OK",
+        result: response,
+      });
+    } catch (error) {
+      console.error("ProfileAPIController -> deleteExperience()", error);
+      return res.status(error.statusCode || 500).json({
+        status: "SERVER_ERROR",
+        message: error.message,
+      });
+    }
+  }
   async getProfile(req, res, next) {
     try {
       const response = await this.profileService.getProfile(req);

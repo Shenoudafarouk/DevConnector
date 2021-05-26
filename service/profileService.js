@@ -3,6 +3,38 @@ const Profile = require("../models/Profile");
 class ProfileService {
   constructor() {}
 
+  async deleteEducation({ user, params }) {
+    const profile = await Profile.findOne({ user: user.id });
+    if (!profile) {
+      throw { statusCode: 404, message: "There is no profile for this user" };
+    }
+
+    const newEdu = profile.education.filter((edu) => edu._id != params.edu);
+
+    console.log(newEdu);
+
+    profile.education = newEdu;
+
+    const updatedProfile = await profile.save();
+    return updatedProfile;
+  }
+
+  async deleteExperience({ user, params }) {
+    const profile = await Profile.findOne({ user: user.id });
+    if (!profile) {
+      throw { statusCode: 404, message: "There is no profile for this user" };
+    }
+
+    const newExp = profile.experience.filter((exp) => exp._id != params.exp);
+
+    console.log(newExp);
+
+    profile.experience = newExp;
+
+    const updatedProfile = await profile.save();
+    return updatedProfile;
+  }
+
   async getProfile({ user }) {
     const profile = await Profile.findOne({ user: user.id }).populate("user", [
       "name",
@@ -118,7 +150,6 @@ class ProfileService {
     let updatedProfile = await profile.save();
     return updatedProfile;
   }
-  
 }
 
 module.exports = ProfileService;
