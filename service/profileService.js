@@ -87,15 +87,38 @@ class ProfileService {
     return userProfile;
   }
 
-  
   async getAllProfiles() {
     const profiles = await Profile.find({}).populate("user", ["name", "email"]);
 
     if (!profiles.length)
       throw { statusCode: 404, message: "There are no profiles" };
 
-    return {profiles, total: profiles.length}
+    return { profiles, total: profiles.length };
   }
+
+  async addExperience(id, body) {
+    const profile = await Profile.findOne({ user: id });
+
+    if (!profile)
+      throw { statusCode: 404, message: "There is no profile for this user" };
+
+    profile.experience.unshift({ ...body });
+
+    let updatedProfile = await profile.save();
+    return updatedProfile;
+  }
+  async addEducation(id, body) {
+    const profile = await Profile.findOne({ user: id });
+
+    if (!profile)
+      throw { statusCode: 404, message: "There is no profile for this user" };
+
+    profile.education.unshift({ ...body });
+
+    let updatedProfile = await profile.save();
+    return updatedProfile;
+  }
+  
 }
 
 module.exports = ProfileService;

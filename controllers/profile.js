@@ -77,7 +77,7 @@ class ProfileAPIController {
       return res.send({
         status: "OK",
         result: profiles,
-        total
+        total,
       });
     } catch (error) {
       console.error("profileController -> getallProfiles", error);
@@ -87,6 +87,39 @@ class ProfileAPIController {
       });
     }
   }
+
+  async addExperience(req, res, next) {
+    try {
+      const response = await this.profileService.addExperience(req.user , req.body);
+      return res.send({
+        status: "OK",
+        result: response,
+      });
+    } catch (error) {
+      console.error('profileController -> addExperince()', error);
+      return res.status(error.statusCode || 500).json({
+        status: "SERVER_ERROR",
+        message: error.message
+      })
+    }
+  }
+
+  async addEducation(req, res, next) {
+    try {
+      const response = await this.profileService.addEducation(req.user , req.body);
+      return res.send({
+        status: "OK",
+        result: response,
+      });
+    } catch (error) {
+      console.error('profileController -> addEducation()', error);
+      return res.status(error.statusCode || 500).json({
+        status: "SERVER_ERROR",
+        message: error.message
+      })
+    }
+  }
+  
 }
 
 module.exports = ProfileAPIController;
