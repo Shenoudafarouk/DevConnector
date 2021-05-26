@@ -78,7 +78,10 @@ class UserService {
   }
 
   async getProfile({ user }) {
-    const profile = await Profile.findOne({ user: user.id });
+    const profile = await Profile.findOne({ user: user.id }).populate("user", [
+      "name",
+      "avatar",
+    ]);
     if (!profile) {
       throw { statusCode: 404, message: "There is no profile for this user" };
     }
@@ -89,14 +92,14 @@ class UserService {
     const profileFields = {};
 
     profileFields.user = user.id;
-    if (body.hanlde) profileFields.hanlde = body.hanlde;
+    if (body.handle) profileFields.handle = body.handle;
     if (body.company) profileFields.company = body.company;
     if (body.website) profileFields.website = body.website;
     if (body.location) profileFields.location = body.location;
     if (body.bio) profileFields.bio = body.bio;
     if (body.status) profileFields.status = body.status;
-    if (body.githubsUsername)
-      profileFields.githubsUsername = body.githubsUsername;
+    if (body.githubUsername)
+      profileFields.githubUsername = body.githubUsername;
 
     //Skills - spilt into array
     if (typeof body.skills !== "undefined") {
@@ -109,7 +112,7 @@ class UserService {
     if (body.twitter) profileFields.social.twitter = body.twitter;
     if (body.facebook) profileFields.social.facebook = body.facebook;
     if (body.linkedin) profileFields.social.linkedin = body.linkedin;
-    if (body.instgram) profileFields.social.instgram = body.instgram;
+    if (body.instagram) profileFields.social.instagram = body.instagram;
 
     const profileExist = await Profile.findOne({ user: user.id });
 

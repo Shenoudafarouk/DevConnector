@@ -82,7 +82,13 @@ module.exports.profileValidation = function (req, res, next) {
     const bodySchema = joi.object().keys({
       handle: joi.string().min(2).max(40).required(),
       status: joi.string().required(),
-      skills: joi.string().required,
+      skills: joi.string().required(),
+      website: joi.string().uri().optional(),
+      youtube: joi.string().uri().optional(),
+      twitter: joi.string().uri().optional(),
+      facebook: joi.string().uri().optional(),
+      linkedin: joi.string().uri().optional(),
+      instagram: joi.string().uri().optional()
     });
 
     const options = { abortEarly: false, allowUnknown: true };

@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require('morgan');
@@ -53,6 +54,22 @@ require('./config/passport')(passport);
 app.use('/api/user', userRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/posts', postsRoutes);
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function (err, req, res, next) {
+ 
+  // render the error page
+  res.status(err.status || 500).json({
+    status: 'BAD_REQUEST',
+    message: err.message
+  });
+  console.log(err)
+});
 
 port = process.env.PORT || 5000;
 app.listen(port, () => {
