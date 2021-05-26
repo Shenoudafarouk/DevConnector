@@ -18,12 +18,18 @@ router.post("/", passport.authenticate("jwt", { session: false }), profileValida
 // @desc get profile by handle
 // @access Public
 
-router.get('/handle/:handle', new ProfileController().getProfileByHandle)
+router.get('/handle/:handle', new ProfileController().getProfileByHandle);
 
 // @route GET /api/profile/handle/:userId
 // @desc get profile by UserID
 // @access Public
 
-router.get('/userId/:userId', new ProfileController().getProfileByUserId)
+router.get('/userId/:userId', new ProfileController().getProfileByUserId);
+
+// @route GET /api/profile/all
+// @desc get all profiles
+// @access Public
+
+router.get('/all', new ProfileController().getAllProfiles)
 
 module.exports = router;

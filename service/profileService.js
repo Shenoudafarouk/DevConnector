@@ -86,6 +86,16 @@ class ProfileService {
 
     return userProfile;
   }
+
+  
+  async getAllProfiles() {
+    const profiles = await Profile.find({}).populate("user", ["name", "email"]);
+
+    if (!profiles.length)
+      throw { statusCode: 404, message: "There are no profiles" };
+
+    return {profiles, total: profiles.length}
+  }
 }
 
 module.exports = ProfileService;

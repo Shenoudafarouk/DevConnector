@@ -39,8 +39,6 @@ class ProfileAPIController {
     }
   }
 
- 
-
   async getProfileByUserId(req, res, next) {
     try {
       const response = await this.profileService.getProfileByUserId(req.params);
@@ -49,11 +47,11 @@ class ProfileAPIController {
         result: response,
       });
     } catch (error) {
-      console.error('profileController -> getprofileByUserId', error);
+      console.error("profileController -> getprofileByUserId", error);
       return res.status(error.statusCode || 500).json({
-        status: 'SERVER_ERROR',
-        message: error.message
-      })
+        status: "SERVER_ERROR",
+        message: error.message,
+      });
     }
   }
 
@@ -69,6 +67,23 @@ class ProfileAPIController {
       return res.status(error.statusCode || 500).json({
         status: "SERVER_ERROR",
         messgae: error.message,
+      });
+    }
+  }
+
+  async getAllProfiles(req, res, next) {
+    try {
+      const { profiles, total } = await this.profileService.getAllProfiles();
+      return res.send({
+        status: "OK",
+        result: profiles,
+        total
+      });
+    } catch (error) {
+      console.error("profileController -> getallProfiles", error);
+      return res.status(error.statusCode || 500).json({
+        status: "SERVER_ERROR",
+        message: error.message,
       });
     }
   }
