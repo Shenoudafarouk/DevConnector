@@ -7,37 +7,6 @@ class ProfileAPIController {
     autoBind(this);
   }
 
-  
-  async deleteEducation(req, res, next) {
-    try {
-      const response = await this.profileService.deleteEducation(req);
-      res.send({
-        status: "OK",
-        result: response,
-      });
-    } catch (error) {
-      console.error("ProfileAPIController -> deleteEducation()", error);
-      return res.status(error.statusCode || 500).json({
-        status: "SERVER_ERROR",
-        message: error.message,
-      });
-    }
-  }
-  async deleteExperience(req, res, next) {
-    try {
-      const response = await this.profileService.deleteExperience(req);
-      res.send({
-        status: "OK",
-        result: response,
-      });
-    } catch (error) {
-      console.error("ProfileAPIController -> deleteExperience()", error);
-      return res.status(error.statusCode || 500).json({
-        status: "SERVER_ERROR",
-        message: error.message,
-      });
-    }
-  }
   async getProfile(req, res, next) {
     try {
       const response = await this.profileService.getProfile(req);
@@ -121,36 +90,72 @@ class ProfileAPIController {
 
   async addExperience(req, res, next) {
     try {
-      const response = await this.profileService.addExperience(req.user , req.body);
+      const response = await this.profileService.addExperience(
+        req.user,
+        req.body
+      );
       return res.send({
         status: "OK",
         result: response,
       });
     } catch (error) {
-      console.error('profileController -> addExperince()', error);
+      console.error("profileController -> addExperince()", error);
       return res.status(error.statusCode || 500).json({
         status: "SERVER_ERROR",
-        message: error.message
-      })
+        message: error.message,
+      });
     }
   }
 
   async addEducation(req, res, next) {
     try {
-      const response = await this.profileService.addEducation(req.user , req.body);
+      const response = await this.profileService.addEducation(
+        req.user,
+        req.body
+      );
       return res.send({
         status: "OK",
         result: response,
       });
     } catch (error) {
-      console.error('profileController -> addEducation()', error);
+      console.error("profileController -> addEducation()", error);
       return res.status(error.statusCode || 500).json({
         status: "SERVER_ERROR",
-        message: error.message
-      })
+        message: error.message,
+      });
     }
   }
-  
+
+  async deleteEducation(req, res, next) {
+    try {
+      const response = await this.profileService.deleteEducation(req);
+      res.send({
+        status: "OK",
+        result: response,
+      });
+    } catch (error) {
+      console.error("ProfileAPIController -> deleteEducation()", error);
+      return res.status(error.statusCode || 500).json({
+        status: "SERVER_ERROR",
+        message: error.message,
+      });
+    }
+  }
+  async deleteExperience(req, res, next) {
+    try {
+      const response = await this.profileService.deleteExperience(req);
+      res.send({
+        status: "OK",
+        result: response,
+      });
+    } catch (error) {
+      console.error("ProfileAPIController -> deleteExperience()", error);
+      return res.status(error.statusCode || 500).json({
+        status: "SERVER_ERROR",
+        message: error.message,
+      });
+    }
+  }
 }
 
 module.exports = ProfileAPIController;
